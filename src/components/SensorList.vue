@@ -28,10 +28,11 @@
             <div class="modal-body">
               <form>
                 <input type="text" class="form-control mb-3" placeholder="Sensor name" v-model="newSensor.name">
-                <select class="form-select">
-                  <option selected>-- Select Sensor Type --</option>
+                <select class="form-select" v-model="newSensor.type">
+                  <option disabled value="">-- Select Sensor Type --</option>
                   <option v-for="type in sensorTypes" :value="type">{{ type }}</option>
                 </select>
+
 
               </form>
             </div>
@@ -107,9 +108,8 @@ export default {
   },
     async createSensor() {
       try {
-        if (!this.newSensor.name) { // Utiliza this.newSensor.name en lugar de this.createdSensor.newSensor.name
+        if (!this.newSensor.name) { 
           this.showUnexpectedError = true;
-          // Ocultar el mensaje de error después de 2 segundos
           setTimeout(() => {
             this.showUnexpectedError = false;
           }, 2000);
@@ -123,7 +123,7 @@ export default {
         });
         this.sensors.push(response.data);
         this.isCreated = false;
-        this.newSensor = { name: '', type: null, status: true };
+        this.newSensor = { name: '', type: '', status: true };
         this.sensorCreationError = false;
       } catch (error) {
         console.error("Error creating sensor:", error);
